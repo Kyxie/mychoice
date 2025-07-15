@@ -1,0 +1,42 @@
+# Ignore local virtual environment if in root
+venv/
+env/
+ENV/
+
+# Ignore Python bytecode in root (redundant safety)
+__pycache__/
+*.py[cod]
+
+# Node modules in root (if any tools like husky are installed globally)
+node_modules/
+
+# MacOS system files
+.DS_Store
+
+# OS-specific or editor-specific
+*.swp
+*.swo
+*.bak
+*.tmp
+.idea/
+.vscode/
+
+# Coverage / test files (in case generated at root)
+.coverage
+coverage.xml
+htmlcov/
+
+# Logs
+*.log
+
+# Environment config files (e.g. dotenv)
+.env
+.env.*
+
+# Global ignore of common junk across both frontend/backend
+*.pid
+*.sock
+
+# Optional: ignore top-level dist/build output (if building fullstack output here)
+dist/
+build/

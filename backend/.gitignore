@@ -1,0 +1,67 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+*.env
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Django SQLite database file
+*.sqlite3
+db.sqlite3
+
+# Django migration cache files
+**/migrations/*.pyc
+**/migrations/__pycache__/
+
+# Keep actual migration files
+!**/migrations/*.py
+
+# Static and media files
+staticfiles/
+media/
+
+# IDE/editor config files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+
+# Logs
+*.log
+
+# pip cache
+pip-log.txt
+__pypackages__/
+
+# Test and coverage outputs
+htmlcov/
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Type checker caches
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# Linter reports
+pylint-report.txt
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Docker-related
+*.pid
+*.sock

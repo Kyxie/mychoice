@@ -11,8 +11,5 @@ class Item(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        unique_together = ('name', 'group')
-
     def __str__(self):
         return f"{self.name} ({self.group})"

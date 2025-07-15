@@ -1,37 +1,55 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { fetchItem, updateItem } from '../api/items'
-import { Box, Input, Select, Button, Heading } from '@chakra-ui/react'
+import { Box, Heading, Button, Text, useToast } from '@chakra-ui/react'
+import ItemForm from '../components/ItemForm'
 
-export default function ItemDetail() {
+export default function ItemDetails() {
   const { id } = useParams()
   const [item, setItem] = useState(null)
   const navigate = useNavigate()
+  const toast = useToast()
 
   useEffect(() => {
-    fetchItem(id).then(res => setItem(res.data))
+    fetchItem(id).then(setItem)
   }, [id])
 
   const handleUpdate = async () => {
     try {
       await updateItem(id, item)
+      toast({
+        title: 'Item updated',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
       navigate('/')
     } catch (e) {
-      alert('Update failed: ' + e.response?.data?.detail || e.message)
+      toast({
+        title: 'Update failed',
+        description: e.toString(),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
     }
   }
 
   if (!item) return <Box p={6}>Loading...</Box>
 
   return (
-    <Box p={6}>
+    <Box p={6} maxW="500px" mx="auto">
       <Heading mb={4}>Edit Item</Heading>
-      <Input value={item.name} onChange={e => setItem({ ...item, name: e.target.value })} mb={3} />
-      <Select value={item.group} onChange={e => setItem({ ...item, group: e.target.value })} mb={3}>
-        <option value="Primary">Primary</option>
-        <option value="Secondary">Secondary</option>
-      </Select>
-      <Button onClick={handleUpdate} colorScheme="teal">Update</Button>
+      <ItemForm item={item} setItem={setItem} />
+      <Text fontSize="xs" color="gray.500" mt={2}>
+        Created: {new Date(item.created_at).toLocaleString()}
+      </Text>
+      <Text fontSize="xs" color="gray.500">
+        Updated: {new Date(item.updated_at).toLocaleString()}
+      </Text>
+      <Button mt={4} onClick={handleUpdate} colorScheme="teal">
+        Update
+      </Button>
     </Box>
   )
 }

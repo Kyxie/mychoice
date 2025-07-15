@@ -8,7 +8,8 @@ item_list = ItemViewSet.as_view({
 
 item_detail = ItemViewSet.as_view({
     'get': 'retrieve',
-    'patch': 'partial_update'
+    'patch': 'partial_update',
+    'delete': 'destroy'
 })
 
 urlpatterns = [

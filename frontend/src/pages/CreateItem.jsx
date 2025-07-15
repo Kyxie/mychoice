@@ -1,31 +1,33 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { createItem } from '../api/items'
-import { Box, Input, Select, Button, Heading } from '@chakra-ui/react'
+import { Box, Heading, Button, useToast } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
+import ItemForm from '../components/ItemForm'
 
 export default function CreateItem() {
-  const [name, setName] = useState('')
-  const [group, setGroup] = useState('Primary')
+  const [item, setItem] = useState({ name: '', group: 'Primary' })
+  const [errors, setErrors] = useState({})
   const navigate = useNavigate()
+  const toast = useToast()
 
-  const handleSubmit = async () => {
+  const handleCreate = async () => {
     try {
-      await createItem({ name, group })
+      await createItem(item)
+      toast({ title: 'Item created', status: 'success', duration: 3000, isClosable: true })
       navigate('/')
     } catch (e) {
-      alert('Error creating item: ' + e.response?.data?.detail || e.message)
+      const msg = e.response?.data?.message || 'Creation failed'
+      const fieldErrors = e.response?.data?.errors || {}
+      setErrors(fieldErrors)
+      toast({ title: 'Creation failed', description: typeof msg === 'string' ? msg : 'Invalid data', status: 'error', duration: 5000, isClosable: true })
     }
   }
 
   return (
-    <Box p={6}>
-      <Heading mb={4}>Create New Item</Heading>
-      <Input placeholder="Item Name" value={name} onChange={e => setName(e.target.value)} mb={3} />
-      <Select value={group} onChange={e => setGroup(e.target.value)} mb={3}>
-        <option value="Primary">Primary</option>
-        <option value="Secondary">Secondary</option>
-      </Select>
-      <Button onClick={handleSubmit} colorScheme="teal">Submit</Button>
+    <Box p={6} maxW="500px" mx="auto">
+      <Heading mb={4}>Create Item</Heading>
+      <ItemForm item={item} setItem={setItem} errors={errors} />
+      <Button mt={4} onClick={handleCreate} colorScheme="blue">Create</Button>
     </Box>
   )
 }

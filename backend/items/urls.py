@@ -1,11 +1,13 @@
 from django.urls import path
 from .views import ItemViewSet
 
+# For all
 item_list = ItemViewSet.as_view({
     'get': 'list',
     'post': 'create'
 })
 
+# For specific id
 item_detail = ItemViewSet.as_view({
     'get': 'retrieve',
     'patch': 'partial_update',

@@ -8,17 +8,18 @@
     venv\Scripts\activate      # Windows
     ```
 
--   Install dependencies
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
--   Go to backend directory, and run server
+-   Go to backend directory, and install dependencies
 
     ```bash
     cd backend
-    python3 manage.py runserver
+    pip install -r requirements.txt
+    ```
+
+-   Migrate database and run server
+
+    ```bash
+    python manage.py migrate
+    python manage.py runserver
     ```
 
 -   The backend will be available at: http://localhost:8000

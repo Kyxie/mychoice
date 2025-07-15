@@ -9,6 +9,7 @@ export default function ItemDetails() {
   const [item, setItem] = useState(null)
   const navigate = useNavigate()
   const toast = useToast()
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     fetchItem(id).then(setItem)
@@ -25,9 +26,12 @@ export default function ItemDetails() {
       })
       navigate('/')
     } catch (e) {
+      const msg = e.response?.data?.message || 'Update failed'
+      const fieldErrors = e.response?.data?.errors || {}
+      setErrors(fieldErrors)
       toast({
         title: 'Update failed',
-        description: e.toString(),
+        description: typeof msg === 'string' ? msg : 'Invalid data',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -40,7 +44,7 @@ export default function ItemDetails() {
   return (
     <Box p={6} maxW="500px" mx="auto">
       <Heading mb={4}>Edit Item</Heading>
-      <ItemForm item={item} setItem={setItem} />
+      <ItemForm item={item} setItem={setItem} errors={errors} />
       <Text fontSize="xs" color="gray.500" mt={2}>
         Created: {new Date(item.created_at).toLocaleString()}
       </Text>
